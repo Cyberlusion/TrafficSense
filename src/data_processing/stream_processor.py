@@ -18,6 +18,7 @@ from data_storage.db_handler import insert_radar_lidar_data, get_db
 from data_storage.db_handler import insert_acoustic_data, get_db
 from data_storage.db_handler import insert_air_quality_data, get_db
 from data_storage.db_handler import insert_gps_data, get_db
+from data_storage.db_handler import insert_bluetooth_data, insert_wifi_data, get_db
 from contextlib import contextmanager
 
 
@@ -258,3 +259,21 @@ def analyze_gps_data(data):
     # Example analysis: Identify traffic jam
     if data["speed"] < 5:  # Speed below 5 km/h indicates congestion
         logging.warning(f"Traffic jam detected near {data['location']}")
+
+#Bluetooth and Wi-Fi:
+
+def process_and_store_bluetooth_data(bluetooth_data):
+    """
+    Process and store Bluetooth data.
+    """
+    with get_db_session() as db:
+        stored_record = insert_bluetooth_data(db, bluetooth_data)
+        logging.info(f"Stored Bluetooth data: {stored_record}")
+
+def process_and_store_wifi_data(wifi_data):
+    """
+    Process and store Wi-Fi data.
+    """
+    with get_db_session() as db:
+        stored_record = insert_wifi_data(db, wifi_data)
+        logging.info(f"Stored Wi-Fi data: {stored_record}")
