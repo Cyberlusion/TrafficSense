@@ -360,3 +360,21 @@ def process_and_store_pedestrian_data(pedestrian_data):
     if pedestrian_count > 20:
         control_traffic_light_for_pedestrians(location_id, action="pedestrian_priority")
         logging.info(f"Activated pedestrian priority mode for traffic light {location_id}")
+
+#AI Edge
+
+def process_edge_device_data(edge_data):
+    """
+    Processes data received from edge devices.
+    Adjusts traffic controls or raises alerts based on data.
+    """
+    for data in edge_data:
+        if data["object"] == "car" and data["confidence"] > 0.8:
+            # Example rule: high traffic congestion detected
+            control_traffic_light_via_mqtt(light_id="TL1", action="green")
+            logging.info("High vehicle presence detected, adjusted TL1 to green")
+
+        if data["object"] == "person" and data["confidence"] > 0.8:
+            # Example rule: pedestrian detected near crosswalk
+            control_traffic_light_via_mqtt(light_id="TL1", action="pedestrian_priority")
+            logging.info("High pedestrian presence detected, set TL1 to pedestrian priority")
