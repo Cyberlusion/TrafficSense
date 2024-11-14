@@ -9,6 +9,7 @@ from data_storage.schema import init_db
 from fastapi import FastAPI
 from .traffic_data import router as traffic_data_router
 from .dependencies import get_db
+from api.traffic_control import router as control_router
 
 import threading
 
@@ -52,6 +53,8 @@ app = FastAPI()
 
 # Include the traffic data routes
 app.include_router(traffic_data_router, prefix="/traffic_data", tags=["traffic_data"])
+
+app.include_router(control_router, prefix="/control", tags=["control"])
 
 # Optional: Include health check route
 @app.get("/health")
