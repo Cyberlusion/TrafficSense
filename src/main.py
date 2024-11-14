@@ -13,6 +13,7 @@ from api.traffic_control import router as control_router
 from data_ingestion.loop_sensor_client import start_loop_sensor_listener
 from data_ingestion.radar_lidar_client import start_radar_lidar_listener
 from data_ingestion.acoustic_sensor_client import start_acoustic_listener
+from data_ingestion.air_quality_sensor_client import start_air_quality_listener
 
 import threading import Thread
 
@@ -68,7 +69,7 @@ if __name__ == "__main__":
     camera_thread = Thread(target=start_camera_stream, args=(CAMERA_URL,))
     loop_sensor_thread = Thread(target=start_loop_sensor_listener)
     radar_lidar_thread = Thread(target=start_radar_lidar_listener)
-    acoustic_thread = Thread(target=start_acoustic_listener)
+    air_quality_thread = Thread(target=start_air_quality_listener)
     processing_thread = Thread(target=start_stream_processing)
 
     # Start all threads
@@ -77,7 +78,7 @@ if __name__ == "__main__":
     camera_thread.start()
     loop_sensor_thread.start()
     radar_lidar_thread.start()
-    acoustic_thread.start()
+    air_quality_thread.start()
     processing_thread.start()
 
     # Wait for all threads to complete
@@ -86,5 +87,5 @@ if __name__ == "__main__":
     camera_thread.join()
     loop_sensor_thread.join()
     radar_lidar_thread.join()
-    acoustic_thread.join()
+    air_quality_thread.join()
     processing_thread.join()
