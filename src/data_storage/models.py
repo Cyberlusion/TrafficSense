@@ -21,3 +21,11 @@ class RadarLidarData(Base):
     distance = Column(Float)  # Distance from the sensor
     object_type = Column(String)  # Type of object (e.g., "car", "truck")
     timestamp = Column(DateTime)
+
+class AcousticData(Base):
+    __tablename__ = "acoustic_data"
+
+    id = Column(Integer, primary_key=True, index=True)
+    sound_level = Column(Float)  # Sound level in decibels (dB)
+    vehicle_count = Column(Integer)  # Count of vehicles detected
+    timestamp = Column(DateTime)  # Time of the sensor reading
