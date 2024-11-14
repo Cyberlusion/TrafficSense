@@ -16,6 +16,7 @@ from data_storage.db_handler import insert_traffic_data, get_db
 from data_storage.db_handler import insert_loop_sensor_data, get_db
 from data_storage.db_handler import insert_radar_lidar_data, get_db
 from data_storage.db_handler import insert_acoustic_data, get_db
+from data_storage.db_handler import insert_air_quality_data, get_db
 from contextlib import contextmanager
 
 
@@ -201,3 +202,33 @@ def calculate_congestion_from_sound_level(sound_level):
         return 60  # Moderate congestion
     else:
         return 30  # Low congestion
+
+#Air quality sensors:
+
+def process_and_store_air_quality_data(pm25, pm10, co2, no2, timestamp, location):
+    """
+    Process and store air quality sensor data in the database.
+    
+    Parameters:
+    - pm25: Concentration of PM2.5 in micrograms per cubic meter (µg/m³).
+    - pm10: Concentration of PM10 in µg/m³.
+    - co2: CO2 concentration in parts per million (ppm).
+    - no2: NO2 concentration in ppm.
+    - timestamp: Timestamp when the data was recorded.
+    - location: Location of the air quality sensor.
+    """
+    with get_db_session() as db:
+        stored_record = insert_air_quality_data(db, pm25, pm10, co2, no2, timestamp, location)
+        logging.info(f"Stored air quality sensor data: {stored_record}")
+
+def calculate_air_quality_index(pm25, pm10, co2, no2):
+    """
+    Calculate an overall air quality index based on sensor readings.
+    This can be done by aggregating the data or using predefined standards.
+    """
+    if pm25 > 50 or pm10 > 100 or co2 > 1000 or no2 > 50:
+        return "Unhealthy"  # High pollution levels
+    elif pm25 > 35 or pm10 > 75 or co2 > 800 or no2 > 40:
+        return "Moderate"  # Moderate pollution levels
+    else:
+        return "Good"  # Good air quality
