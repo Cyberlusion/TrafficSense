@@ -329,3 +329,23 @@ def start_stream_processing():
         # Control traffic lights based on processed data
         analyze_and_control_traffic_lights(processed_data)
 
+#Pedestrian counter:
+
+def process_and_store_pedestrian_data(pedestrian_data):
+    """
+    Process pedestrian count data and store it if necessary.
+    Adjust traffic light signals based on pedestrian count.
+    """
+    pedestrian_count = pedestrian_data.get("count")
+    location_id = pedestrian_data.get("location_id")
+
+    # Example threshold for adjusting traffic lights based on pedestrian count
+    if pedestrian_count > 20:  # e.g., 20 people detected
+        # Set traffic light to prioritize pedestrian crossing
+        control_traffic_light_via_mqtt(light_id=location_id, action="pedestrian_priority")
+        logging.info(f"Adjusted traffic light {location_id} for high pedestrian count")
+
+    # Store the pedestrian count in the database
+    with get_db_session() as db:
+        stored_record = insert_pedestrian_data(db, pedestrian_data)
+        logging.info(f"Stored pedestrian data: {stored_record}")
