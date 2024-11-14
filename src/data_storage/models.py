@@ -29,3 +29,14 @@ class AcousticData(Base):
     sound_level = Column(Float)  # Sound level in decibels (dB)
     vehicle_count = Column(Integer)  # Count of vehicles detected
     timestamp = Column(DateTime)  # Time of the sensor reading
+
+class AirQualityData(Base):
+    __tablename__ = "air_quality_data"
+
+    id = Column(Integer, primary_key=True, index=True)
+    pm25 = Column(Float)  # PM2.5 concentration (µg/m³)
+    pm10 = Column(Float)  # PM10 concentration (µg/m³)
+    co2 = Column(Float)  # CO2 concentration (ppm)
+    no2 = Column(Float)  # NO2 concentration (ppm)
+    timestamp = Column(DateTime)  # Timestamp of data recording
+    location = Column(String)  # Location of the sensor
