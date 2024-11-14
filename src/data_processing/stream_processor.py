@@ -53,3 +53,17 @@ def process_and_store(data):
     with get_db_session() as db:
         stored_record = insert_traffic_data(db, data)
         print(f"Stored record: {stored_record}")
+
+def process_traffic_data(data):
+    # Example condition: high congestion detected
+    if data["congestion_level"] > 80:
+        # Change traffic light to green to ease congestion
+        control_traffic_light_via_mqtt(light_id="A1", action="green")
+        logging.info("Increased green light duration to ease congestion")
+
+    # Example condition: high vehicle count in a specific area
+    if data["vehicle_count"] > 50:
+        # Reroute vehicles to avoid congested area
+        update_routing_suggestion(vehicle_id="vehicle_123", new_route="Alternate Route")
+        logging.info("Updated route for vehicle 123 to avoid congestion")
+
