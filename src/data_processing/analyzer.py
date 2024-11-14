@@ -21,3 +21,11 @@ def analyze_traffic(data):
         }
     
     return analysis_result
+
+#  add analysis logic to respond based on the camera data, such as adjusting traffic lights if congestion is detected:
+
+from feedback.feedback_manager import adjust_traffic_light
+
+def analyze_traffic(vehicle_count):
+    if vehicle_count > 20:  # Example threshold for congestion
+        adjust_traffic_light(light_id="A1", action="green", protocol="mqtt")
