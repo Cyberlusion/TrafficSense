@@ -13,6 +13,7 @@ from .models import GPSData
 from .models import BluetoothData, WifiData
 from .models import WeatherData
 from .models import TrafficLightAction
+from .models import PedestrianData
 
 # Set up the database connection string
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -249,3 +250,16 @@ def log_traffic_light_action(db: Session, light_id: str, action: str):
     db.commit()
     db.refresh(action_record)
     return action_record
+
+#pedestrians:
+
+def insert_pedestrian_data(db: Session, pedestrian_data: dict):
+    new_record = PedestrianData(
+        count=pedestrian_data.get("count"),
+        location_id=pedestrian_data.get("location_id"),
+        timestamp=pedestrian_data.get("timestamp")
+    )
+    db.add(new_record)
+    db.commit()
+    db.refresh(new_record)
+    return new_record
