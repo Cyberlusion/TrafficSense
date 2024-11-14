@@ -1,0 +1,4 @@
+device_id,timestamp,latitude,longitude,speed,temperature,battery_level
+sensor_003,2024-11-14T08:10:00Z,40.7132,-74.0070,72,23.1,90
+sensor_004,2024-11-14T08:15:00Z,40.7135,-74.0075,60,22.3,87
+sensor_005,2024-11-14T08:20:00Z,40.7140,-74.0080,68,24.0,92
