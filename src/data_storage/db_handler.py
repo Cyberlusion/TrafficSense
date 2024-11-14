@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from .config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 from .schema import TrafficData
+from .models import RadarLidarData
 
 # Set up the database connection string
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -81,6 +82,32 @@ def insert_loop_sensor_data(db: Session, loop_id: str, vehicle_count: int, occup
         loop_id=loop_id,
         vehicle_count=vehicle_count,
         occupancy=occupancy,
+        timestamp=datetime.fromisoformat(timestamp)
+    )
+    db.add(new_record)
+    db.commit()
+    db.refresh(new_record)
+    return new_record
+
+#add radar and lidar:
+
+def insert_radar_lidar_data(db: Session, sensor_type: str, speed: float, distance: float, object_type: str, timestamp: str):
+    """
+    Inserts radar or lidar sensor data into the database.
+    
+    Parameters:
+    - db: Database session.
+    - sensor_type: Type of sensor ("radar" or "lidar").
+    - speed: Speed of the detected vehicle.
+    - distance: Distance from the sensor.
+    - object_type: Type of the object (e.g., "car", "truck").
+    - timestamp: Timestamp of the reading.
+    """
+    new_record = RadarLidarData(
+        sensor_type=sensor_type,
+        speed=speed,
+        distance=distance,
+        object_type=object_type,
         timestamp=datetime.fromisoformat(timestamp)
     )
     db.add(new_record)
