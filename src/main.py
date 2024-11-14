@@ -60,3 +60,22 @@ app.include_router(control_router, prefix="/control", tags=["control"])
 @app.get("/health")
 def read_health():
     return {"status": "ok"}
+
+# Integrate Traffic Camera Data in the Main Application
+
+from threading import Thread
+from data_ingestion.traffic_camera_client import start_camera_stream
+from data_ingestion.mqtt_client import start_mqtt_listener
+from data_ingestion.http_client import fetch_http_data
+from data_processing import start_stream_processing
+
+CAMERA_URL = "rtsp://camera_address/stream"  # Replace with actual camera URL
+
+if __name__ == "__main__":
+    
+    # Start threads for each data source
+    mqtt_thread = Thread(target=start_mqtt_listener)
+    http_thread = Thread(target=fetch_http_data)
+    camera_thread = Thread(target=start_camera_stream, args=(CAMERA_URL,))
+    processing_thread = Thread(target=start_stream_processing)
+
