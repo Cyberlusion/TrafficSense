@@ -14,6 +14,7 @@ from feedback.feedback_manager import (
 )
 from data_storage.db_handler import insert_traffic_data, get_db
 from data_storage.db_handler import insert_loop_sensor_data, get_db
+from data_storage.db_handler import insert_radar_lidar_data, get_db
 from contextlib import contextmanager
 
 
@@ -141,4 +142,34 @@ def calculate_occupancy(vehicle_count):
     # Example: Calculate occupancy as a simple function of vehicle count
     return min(100, vehicle_count * 5)  # Assuming each vehicle counts as 5% occupancy
 
+#Add lidar and radar:
 
+def process_and_store_radar_lidar_data(sensor_type, vehicle_data, timestamp):
+    """
+    Process and store radar or lidar sensor data in the database.
+    
+    Parameters:
+    - sensor_type: Type of sensor ("radar" or "lidar").
+    - vehicle_data: List of vehicle data (speed, distance, object type).
+    - timestamp: Time the data was recorded.
+    """
+    for vehicle in vehicle_data:
+        speed = vehicle.get("speed")
+        distance = vehicle.get("distance")
+        object_type = vehicle.get("object_type")
+
+        with get_db_session() as db:
+            stored_record = insert_radar_lidar_data(db, sensor_type, speed, distance, object_type, timestamp)
+            logging.info(f"Stored {sensor_type} data: {stored_record}")
+
+def calculate_congestion_from_speed(speed):
+    """
+    Example: Calculate congestion level based on speed.
+    Higher speed means less congestion.
+    """
+    if speed < 20:
+        return 90  # High congestion
+    elif speed < 40:
+        return 60  # Moderate congestion
+    else:
+        return 30  # Low congestion
