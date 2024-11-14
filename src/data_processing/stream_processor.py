@@ -20,6 +20,7 @@ from data_storage.db_handler import insert_air_quality_data, get_db
 from data_storage.db_handler import insert_gps_data, get_db
 from data_storage.db_handler import insert_bluetooth_data, insert_wifi_data, get_db
 from data_storage.db_handler import insert_weather_data, get_db
+from feedback.traffic_light_controller import control_traffic_light_via_mqtt, control_traffic_light_via_http
 from contextlib import contextmanager
 
 
@@ -293,3 +294,20 @@ def process_and_store_weather_data(weather_data):
     if weather_data.get("rainfall") > 10:  # Example condition for heavy rain
         logging.info("Heavy rain detected, adjusting traffic signals for safety.")
         # Additional traffic adjustment actions here, if needed
+
+#Smart Traffic lights integration:
+
+def analyze_and_control_traffic_lights(processed_data):
+    # Example condition: high congestion, change light to green
+    if processed_data["congestion_level"] > 80:
+        control_traffic_light_via_mqtt(light_id="TL1", action="green")
+        logging.info("Adjusted TL1 to green to ease congestion")
+        
+    # Example: Allow green wave for emergency vehicles
+    if processed_data["emergency_vehicle_detected"]:
+        control_traffic_light_via_http(
+            light_id="TL2", 
+            action="green_wave", 
+            api_url="http://traffic-light-control-system.com"
+        )
+        logging.info("Activated green wave for emergency vehicle on TL2")
