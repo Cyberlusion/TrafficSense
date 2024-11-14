@@ -10,8 +10,9 @@ from fastapi import FastAPI
 from .traffic_data import router as traffic_data_router
 from .dependencies import get_db
 from api.traffic_control import router as control_router
+from data_ingestion.loop_sensor_client import start_loop_sensor_listener
 
-import threading
+import threading import Thread
 
 # Load the configuration from the YAML or .env file
 config = load_config()
@@ -33,16 +34,6 @@ def main():
     # Start the data processing thread
     processing_thread = threading.Thread(target=start_stream_processing)
 
-    # Start all threads
-    mqtt_thread.start()
-    http_thread.start()
-    processing_thread.start()
-
-    # Wait for all threads to complete
-    mqtt_thread.join()
-    http_thread.join()
-    processing_thread.join()
-
 if __name__ == "__main__":
     # Initialize database tables
     init_db(engine)
@@ -50,11 +41,6 @@ if __name__ == "__main__":
     main()
 
 app = FastAPI()
-
-# Include the traffic data routes
-app.include_router(traffic_data_router, prefix="/traffic_data", tags=["traffic_data"])
-
-app.include_router(control_router, prefix="/control", tags=["control"])
 
 # Optional: Include health check route
 @app.get("/health")
@@ -71,11 +57,27 @@ from data_processing import start_stream_processing
 
 CAMERA_URL = "rtsp://camera_address/stream"  # Replace with actual camera URL
 
+CAMERA_URL = "rtsp://camera_address/stream"  # Replace with actual camera URL
+
 if __name__ == "__main__":
     
     # Start threads for each data source
     mqtt_thread = Thread(target=start_mqtt_listener)
     http_thread = Thread(target=fetch_http_data)
     camera_thread = Thread(target=start_camera_stream, args=(CAMERA_URL,))
+    loop_sensor_thread = Thread(target=start_loop_sensor_listener)
     processing_thread = Thread(target=start_stream_processing)
 
+    # Start all threads
+    mqtt_thread.start()
+    http_thread.start()
+    camera_thread.start()
+    loop_sensor_thread.start()
+    processing_thread.start()
+
+    # Wait for all threads to complete
+    mqtt_thread.join()
+    http_thread.join()
+    camera_thread.join()
+    loop_sensor_thread.join()
+    processing_thread.join()
