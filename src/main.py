@@ -3,6 +3,8 @@
 from data_ingestion.mqtt_client import start_mqtt_listener
 from data_ingestion.http_client import fetch_http_data
 from data_processing import start_stream_processing
+from data_storage.db_handler import engine
+from data_storage.schema import init_db
 import threading
 
 def main():
@@ -24,4 +26,7 @@ def main():
     processing_thread.join()
 
 if __name__ == "__main__":
+    # Initialize database tables
+    init_db(engine)
+    # Start the rest of the application
     main()
