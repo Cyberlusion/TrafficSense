@@ -33,3 +33,29 @@ def insert_traffic_data(db, data):
 def fetch_recent_data(db, limit=100):
     """Fetches the most recent traffic data records."""
     return db.query(TrafficData).order_by(TrafficData.timestamp.desc()).limit(limit).all()
+
+#Add a function to insert traffic camera data into the database. 
+#For example, we’ll assume you have a traffic_data table with columns like timestamp, vehicle_count, and congestion_level.
+
+from sqlalchemy.orm import Session
+from datetime import datetime
+from .models import TrafficData
+
+def insert_traffic_camera_data(db: Session, vehicle_count: int, congestion_level: int):
+    """
+    Inserts traffic camera data into the database.
+    
+    Parameters:
+    - db: Database session.
+    - vehicle_count: The number of vehicles detected.
+    - congestion_level: Calculated congestion level.
+    """
+    new_record = TrafficData(
+        timestamp=datetime.utcnow(),
+        vehicle_count=vehicle_count,
+        congestion_level=congestion_level
+    )
+    db.add(new_record)
+    db.commit()
+    db.refresh(new_record)
+    return new_record
