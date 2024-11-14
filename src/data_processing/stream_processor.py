@@ -15,6 +15,7 @@ from feedback.feedback_manager import (
 from data_storage.db_handler import insert_traffic_data, get_db
 from data_storage.db_handler import insert_loop_sensor_data, get_db
 from data_storage.db_handler import insert_radar_lidar_data, get_db
+from data_storage.db_handler import insert_acoustic_data, get_db
 from contextlib import contextmanager
 
 
@@ -170,6 +171,33 @@ def calculate_congestion_from_speed(speed):
     if speed < 20:
         return 90  # High congestion
     elif speed < 40:
+        return 60  # Moderate congestion
+    else:
+        return 30  # Low congestion
+
+#Acoustic sensors:
+
+def process_and_store_acoustic_data(sound_level, vehicle_count, timestamp):
+    """
+    Process and store acoustic sensor data in the database.
+    
+    Parameters:
+    - sound_level: Measured sound level in decibels (dB).
+    - vehicle_count: Count of vehicles detected by the acoustic sensor.
+    - timestamp: Timestamp when the data was recorded.
+    """
+    with get_db_session() as db:
+        stored_record = insert_acoustic_data(db, sound_level, vehicle_count, timestamp)
+        logging.info(f"Stored acoustic sensor data: {stored_record}")
+
+def calculate_congestion_from_sound_level(sound_level):
+    """
+    Example: Calculate congestion level based on sound level.
+    Higher sound level means higher traffic density.
+    """
+    if sound_level > 85:
+        return 90  # High congestion
+    elif sound_level > 70:
         return 60  # Moderate congestion
     else:
         return 30  # Low congestion
