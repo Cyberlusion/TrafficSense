@@ -311,3 +311,21 @@ def analyze_and_control_traffic_lights(processed_data):
             api_url="http://traffic-light-control-system.com"
         )
         logging.info("Activated green wave for emergency vehicle on TL2")
+
+def start_stream_processing():
+    consumer = KafkaConsumer(
+        'traffic_data',
+        bootstrap_servers='localhost:9092',
+        value_deserializer=lambda x: json.loads(x.decode('utf-8'))
+    )
+
+    for message in consumer:
+        raw_data = message.value
+        print(f"Received data: {raw_data}")
+
+        # Process the data
+        processed_data = process_data(raw_data)
+
+        # Control traffic lights based on processed data
+        analyze_and_control_traffic_lights(processed_data)
+
