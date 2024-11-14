@@ -14,6 +14,7 @@ from .models import BluetoothData, WifiData
 from .models import WeatherData
 from .models import TrafficLightAction
 from .models import PedestrianData
+from .models import EdgeDeviceData
 
 # Set up the database connection string
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -258,6 +259,20 @@ def insert_pedestrian_data(db: Session, pedestrian_data: dict):
         count=pedestrian_data.get("count"),
         location_id=pedestrian_data.get("location_id"),
         timestamp=pedestrian_data.get("timestamp")
+    )
+    db.add(new_record)
+    db.commit()
+    db.refresh(new_record)
+    return new_record
+
+#AI edge:
+
+def insert_edge_device_data(db: Session, edge_data: dict):
+    new_record = EdgeDeviceData(
+        device_id=edge_data.get("device_id"),
+        object_detected=edge_data.get("object"),
+        confidence=edge_data.get("confidence"),
+        timestamp=edge_data.get("timestamp")
     )
     db.add(new_record)
     db.commit()
