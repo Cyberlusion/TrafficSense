@@ -37,3 +37,14 @@ def control_traffic_light_for_pedestrians(light_id, action):
     message = json.dumps({"action": action})
     mqtt_client.publish(topic, message)
     logging.info(f"Sent pedestrian priority command to {light_id}: {action}")
+
+#Adding AI Edge:
+
+def handle_edge_alerts(light_id, action):
+    """
+    Example command to control lights based on data from edge devices.
+    """
+    topic = f"traffic_lights/{light_id}/control"
+    message = json.dumps({"action": action})
+    mqtt_client.publish(topic, message)
+    logging.info(f"Traffic light {light_id} set to {action} based on edge data")
