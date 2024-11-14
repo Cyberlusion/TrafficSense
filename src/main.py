@@ -17,6 +17,7 @@ from data_ingestion.air_quality_sensor_client import start_air_quality_listener
 from data_ingestion.gps_client import start_gps_listener
 from data_ingestion.weather_sensor_client import start_weather_listener
 from data_ingestion.hydro_station_client import fetch_hydro_data
+from data_ingestion.pedestrian_counter_client import start_pedestrian_listener
 
 import threading import Thread
 
@@ -77,6 +78,7 @@ if __name__ == "__main__":
     processing_thread = Thread(target=start_stream_processing)
     weather_thread = Thread(target=start_weather_listener)
     hydro_data_thread = Thread(target=fetch_hydro_data)
+    pedestrian_thread = Thread(target=start_pedestrian_listener)
 
     # Start all threads
     bluetooth_thread.start()
@@ -91,6 +93,7 @@ if __name__ == "__main__":
     processing_thread.start()
     weather_thread.start()
     hydro_data_thread.start()
+    pedestrian_thread.start()
 
     # Wait for all threads to complete
     bluetooth_thread.join()
@@ -105,3 +108,4 @@ if __name__ == "__main__":
     processing_thread.join()
     weather_thread.join()
     hydro_data_thread.join()
+    pedestrian_thread.join()
