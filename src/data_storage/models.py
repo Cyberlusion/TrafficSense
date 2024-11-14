@@ -78,3 +78,10 @@ class WeatherData(Base):
     rainfall = Column(Float, nullable=True)
     wind_speed = Column(Float, nullable=True)
     timestamp = Column(DateTime, nullable=False)
+
+class TrafficLightAction(Base):
+    __tablename__ = "traffic_light_actions"
+    id = Column(Integer, primary_key=True, index=True)
+    light_id = Column(String, index=True)
+    action = Column(String)
+    timestamp = Column(DateTime, default=func.now())
