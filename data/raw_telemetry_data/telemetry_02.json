@@ -1,0 +1,8 @@
+{
+  "device_id": "sensor_002",
+  "timestamp": "2024-11-14T08:05:00Z",
+  "location": {"latitude": 40.7130, "longitude": -74.0065},
+  "speed": 58,
+  "temperature": 21.8,
+  "battery_level": 85
+}
