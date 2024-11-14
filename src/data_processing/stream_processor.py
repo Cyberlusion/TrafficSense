@@ -69,4 +69,44 @@ def start_stream_processing():
 if __name__ == "__main__":
     start_stream_processing()
 
+# store camera data:
+
+from data_storage.db_handler import insert_traffic_camera_data, get_db
+from contextlib import contextmanager
+import logging
+
+@contextmanager
+def get_db_session():
+    db = next(get_db())
+    try:
+        yield db
+    finally:
+        db.close()
+
+def process_and_store_traffic_camera_data(vehicle_count, congestion_level):
+    """
+    Process and store traffic camera data into the database.
+    
+    Parameters:
+    - vehicle_count: The number of vehicles detected in the frame.
+    - congestion_level: Calculated congestion level.
+    """
+    with get_db_session() as db:
+        stored_record = insert_traffic_camera_data(db, vehicle_count, congestion_level)
+        logging.info(f"Stored traffic camera data: {stored_record}")
+
+def analyze_and_store_traffic_camera_data(frame):
+    """
+    Example analysis function that detects vehicles in a frame and stores
+    relevant traffic data into the database.
+    
+    Parameters:
+    - frame: Frame captured from traffic camera.
+    """
+    vehicle_count = detect_vehicles(frame)  # Assume detect_vehicles is defined
+    congestion_level = calculate_congestion_level(vehicle_count)  # Define a calculation function
+
+    # Process and store the data
+    process_and_store_traffic_camera_data(vehicle_count, congestion_level)
+    logging.info(f"Processed frame with {vehicle_count} vehicles, congestion level: {congestion_level}")
 
