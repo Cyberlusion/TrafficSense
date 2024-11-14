@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from .config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 from .schema import TrafficData
 from .models import RadarLidarData
+from .models import AcousticData
 
 # Set up the database connection string
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -108,6 +109,28 @@ def insert_radar_lidar_data(db: Session, sensor_type: str, speed: float, distanc
         speed=speed,
         distance=distance,
         object_type=object_type,
+        timestamp=datetime.fromisoformat(timestamp)
+    )
+    db.add(new_record)
+    db.commit()
+    db.refresh(new_record)
+    return new_record
+
+#acoustic sensors:
+
+def insert_acoustic_data(db: Session, sound_level: float, vehicle_count: int, timestamp: str):
+    """
+    Inserts acoustic sensor data into the database.
+    
+    Parameters:
+    - db: Database session.
+    - sound_level: Measured sound level in decibels (dB).
+    - vehicle_count: Count of vehicles detected.
+    - timestamp: Timestamp when the data was recorded.
+    """
+    new_record = AcousticData(
+        sound_level=sound_level,
+        vehicle_count=vehicle_count,
         timestamp=datetime.fromisoformat(timestamp)
     )
     db.add(new_record)
