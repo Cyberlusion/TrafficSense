@@ -29,3 +29,11 @@ def control_traffic_light_via_http(light_id, action, api_url):
             logging.error(f"Failed to send HTTP command to {light_id}: {response.status_code}")
     except requests.RequestException as e:
         logging.error(f"HTTP control command failed: {e}")
+
+#include pedestrians:
+
+def control_traffic_light_for_pedestrians(light_id, action):
+    topic = f"traffic_lights/{light_id}/pedestrian_control"
+    message = json.dumps({"action": action})
+    mqtt_client.publish(topic, message)
+    logging.info(f"Sent pedestrian priority command to {light_id}: {action}")
