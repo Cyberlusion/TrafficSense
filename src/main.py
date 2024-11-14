@@ -5,6 +5,11 @@ from data_ingestion.http_client import fetch_http_data
 from data_processing import start_stream_processing
 from data_storage.db_handler import engine
 from data_storage.schema import init_db
+#Setting Up FastAPI
+from fastapi import FastAPI
+from .traffic_data import router as traffic_data_router
+from .dependencies import get_db
+
 import threading
 
 def main():
@@ -30,3 +35,13 @@ if __name__ == "__main__":
     init_db(engine)
     # Start the rest of the application
     main()
+
+app = FastAPI()
+
+# Include the traffic data routes
+app.include_router(traffic_data_router, prefix="/traffic_data", tags=["traffic_data"])
+
+# Optional: Include health check route
+@app.get("/health")
+def read_health():
+    return {"status": "ok"}
