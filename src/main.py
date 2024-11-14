@@ -12,6 +12,7 @@ from .dependencies import get_db
 from api.traffic_control import router as control_router
 from data_ingestion.loop_sensor_client import start_loop_sensor_listener
 from data_ingestion.radar_lidar_client import start_radar_lidar_listener
+from data_ingestion.acoustic_sensor_client import start_acoustic_listener
 
 import threading import Thread
 
@@ -61,13 +62,13 @@ CAMERA_URL = "rtsp://camera_address/stream"  # Replace with actual camera URL
 CAMERA_URL = "rtsp://camera_address/stream"  # Replace with actual camera URL
 
 if __name__ == "__main__":
-    
     # Start threads for each data source
     mqtt_thread = Thread(target=start_mqtt_listener)
     http_thread = Thread(target=fetch_http_data)
     camera_thread = Thread(target=start_camera_stream, args=(CAMERA_URL,))
     loop_sensor_thread = Thread(target=start_loop_sensor_listener)
     radar_lidar_thread = Thread(target=start_radar_lidar_listener)
+    acoustic_thread = Thread(target=start_acoustic_listener)
     processing_thread = Thread(target=start_stream_processing)
 
     # Start all threads
@@ -76,6 +77,7 @@ if __name__ == "__main__":
     camera_thread.start()
     loop_sensor_thread.start()
     radar_lidar_thread.start()
+    acoustic_thread.start()
     processing_thread.start()
 
     # Wait for all threads to complete
@@ -84,4 +86,5 @@ if __name__ == "__main__":
     camera_thread.join()
     loop_sensor_thread.join()
     radar_lidar_thread.join()
+    acoustic_thread.join()
     processing_thread.join()
