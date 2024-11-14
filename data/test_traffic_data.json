@@ -1,0 +1,62 @@
+[
+  {
+    "timestamp": "2024-11-14T08:00:00Z",
+    "vehicle_id": 12345,
+    "location": "Point A",
+    "speed": 65
+  },
+  {
+    "timestamp": "2024-11-14T08:05:00Z",
+    "vehicle_id": 12346,
+    "location": "Point B",
+    "speed": 58
+  },
+  {
+    "timestamp": "2024-11-14T08:10:00Z",
+    "vehicle_id": 12347,
+    "location": "Point C",
+    "speed": 72
+  },
+  {
+    "timestamp": "2024-11-14T08:15:00Z",
+    "vehicle_id": 12348,
+    "location": "Point D",
+    "speed": 60
+  },
+  {
+    "timestamp": "2024-11-14T08:20:00Z",
+    "vehicle_id": 12349,
+    "location": "Point E",
+    "speed": 55
+  },
+  {
+    "timestamp": "2024-11-14T08:25:00Z",
+    "vehicle_id": 12350,
+    "location": "Point F",
+    "speed": 68
+  },
+  {
+    "timestamp": "2024-11-14T08:30:00Z",
+    "vehicle_id": 12351,
+    "location": "Point G",
+    "speed": 74
+  },
+  {
+    "timestamp": "2024-11-14T08:35:00Z",
+    "vehicle_id": 12352,
+    "location": "Point H",
+    "speed": 62
+  },
+  {
+    "timestamp": "2024-11-14T08:40:00Z",
+    "vehicle_id": 12353,
+    "location": "Point I",
+    "speed": 70
+  },
+  {
+    "timestamp": "2024-11-14T08:45:00Z",
+    "vehicle_id": 12354,
+    "location": "Point J",
+    "speed": 64
+  }
+]
