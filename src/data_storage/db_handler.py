@@ -9,6 +9,7 @@ from .schema import TrafficData
 from .models import RadarLidarData
 from .models import AcousticData
 from .models import AirQualityData
+from .models import GPSData
 
 # Set up the database connection string
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -161,6 +162,32 @@ ef insert_air_quality_data(db: Session, pm25: float, pm10: float, co2: float, no
         no2=no2,
         timestamp=datetime.fromisoformat(timestamp),
         location=location
+    )
+    db.add(new_record)
+    db.commit()
+    db.refresh(new_record)
+    return new_record
+
+#GPS:
+
+def insert_gps_data(db: Session, vehicle_id: str, latitude: float, longitude: float, speed: float, timestamp: str):
+    """
+    Inserts GPS data into the database.
+    
+    Parameters:
+    - db: Database session.
+    - vehicle_id: Unique identifier for the vehicle.
+    - latitude: Latitude of the vehicle's location.
+    - longitude: Longitude of the vehicle's location.
+    - speed: Speed of the vehicle.
+    - timestamp: Timestamp of data.
+    """
+    new_record = GPSData(
+        vehicle_id=vehicle_id,
+        latitude=latitude,
+        longitude=longitude,
+        speed=speed,
+        timestamp=datetime.fromisoformat(timestamp)
     )
     db.add(new_record)
     db.commit()
