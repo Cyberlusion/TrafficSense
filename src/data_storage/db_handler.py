@@ -12,6 +12,7 @@ from .models import AirQualityData
 from .models import GPSData
 from .models import BluetoothData, WifiData
 from .models import WeatherData
+from .models import TrafficLightAction
 
 # Set up the database connection string
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -239,3 +240,12 @@ def insert_weather_data(db: Session, weather_data: dict):
     db.commit()
     db.refresh(new_record)
     return new_record
+
+# Smart traffic lights:
+
+def log_traffic_light_action(db: Session, light_id: str, action: str):
+    action_record = TrafficLightAction(light_id=light_id, action=action)
+    db.add(action_record)
+    db.commit()
+    db.refresh(action_record)
+    return action_record
