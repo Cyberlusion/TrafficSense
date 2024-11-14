@@ -5,7 +5,14 @@
 from kafka import KafkaConsumer
 from processor import process_data
 from analyzer import analyze_traffic
+
 import json
+
+from feedback.feedback_manager import (
+    control_traffic_light_via_mqtt,
+    control_traffic_light_via_http,
+    update_routing_suggestion,
+)
 
 def start_stream_processing():
     consumer = KafkaConsumer(
