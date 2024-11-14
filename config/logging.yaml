@@ -1,0 +1,23 @@
+# This file can configure your logging system for different environments.
+
+# logging.yaml
+
+version: 1
+disable_existing_loggers: False
+formatters:
+  simple:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  detailed:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(module)s - %(message)s'
+handlers:
+  console:
+    level: DEBUG
+    class: logging.StreamHandler
+    formatter: simple
+loggers:
+  root:
+    level: DEBUG
+    handlers: [console]
+  myapp:
+    level: INFO
+    handlers: [console]
