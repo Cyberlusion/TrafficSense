@@ -85,3 +85,10 @@ class TrafficLightAction(Base):
     light_id = Column(String, index=True)
     action = Column(String)
     timestamp = Column(DateTime, default=func.now())
+
+class PedestrianData(Base):
+    __tablename__ = "pedestrian_data"
+    id = Column(Integer, primary_key=True, index=True)
+    count = Column(Integer, nullable=False)
+    location_id = Column(String, index=True)
+    timestamp = Column(DateTime, default=func.now())
