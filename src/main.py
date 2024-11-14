@@ -15,6 +15,8 @@ from data_ingestion.radar_lidar_client import start_radar_lidar_listener
 from data_ingestion.acoustic_sensor_client import start_acoustic_listener
 from data_ingestion.air_quality_sensor_client import start_air_quality_listener
 from data_ingestion.gps_client import start_gps_listener
+from data_ingestion.weather_sensor_client import start_weather_listener
+from data_ingestion.hydro_station_client import fetch_hydro_data
 
 import threading import Thread
 
@@ -73,6 +75,8 @@ if __name__ == "__main__":
     radar_lidar_thread = Thread(target=start_radar_lidar_listener)
     air_quality_thread = Thread(target=start_air_quality_listener)
     processing_thread = Thread(target=start_stream_processing)
+    weather_thread = Thread(target=start_weather_listener)
+    hydro_data_thread = Thread(target=fetch_hydro_data)
 
     # Start all threads
     bluetooth_thread.start()
@@ -85,6 +89,8 @@ if __name__ == "__main__":
     radar_lidar_thread.start()
     air_quality_thread.start()
     processing_thread.start()
+    weather_thread.start()
+    hydro_data_thread.start()
 
     # Wait for all threads to complete
     bluetooth_thread.join()
@@ -97,3 +103,5 @@ if __name__ == "__main__":
     radar_lidar_thread.join()
     air_quality_thread.join()
     processing_thread.join()
+    weather_thread.join()
+    hydro_data_thread.join()
