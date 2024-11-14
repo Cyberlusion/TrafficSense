@@ -1,0 +1,20 @@
+#Sometimes, JSON is used for configuration, particularly when dealing with web services, API clients, or microservices that might interact with JSON data.
+
+{
+  "database": {
+    "url": "postgresql://user:password@localhost/dbname",
+    "pool_size": 10
+  },
+  "api": {
+    "base_url": "https://api.example.com",
+    "timeout": 30
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(levelname)s - %(message)s"
+  },
+  "app": {
+    "debug": true,
+    "version": "1.0.0"
+  }
+}
