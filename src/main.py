@@ -14,6 +14,7 @@ from data_ingestion.loop_sensor_client import start_loop_sensor_listener
 from data_ingestion.radar_lidar_client import start_radar_lidar_listener
 from data_ingestion.acoustic_sensor_client import start_acoustic_listener
 from data_ingestion.air_quality_sensor_client import start_air_quality_listener
+from data_ingestion.gps_client import start_gps_listener
 
 import threading import Thread
 
@@ -62,6 +63,7 @@ CAMERA_URL = "rtsp://camera_address/stream"  # Replace with actual camera URL
 
 if __name__ == "__main__":
     # Start threads for each data source
+    gps_thread = Thread(target=start_gps_listener)
     mqtt_thread = Thread(target=start_mqtt_listener)
     http_thread = Thread(target=fetch_http_data)
     camera_thread = Thread(target=start_camera_stream, args=(CAMERA_URL,))
@@ -71,6 +73,7 @@ if __name__ == "__main__":
     processing_thread = Thread(target=start_stream_processing)
 
     # Start all threads
+    gps_thread.start()
     mqtt_thread.start()
     http_thread.start()
     camera_thread.start()
@@ -80,6 +83,7 @@ if __name__ == "__main__":
     processing_thread.start()
 
     # Wait for all threads to complete
+    gps_thread.join()
     mqtt_thread.join()
     http_thread.join()
     camera_thread.join()
