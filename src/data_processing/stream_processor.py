@@ -19,6 +19,7 @@ from data_storage.db_handler import insert_acoustic_data, get_db
 from data_storage.db_handler import insert_air_quality_data, get_db
 from data_storage.db_handler import insert_gps_data, get_db
 from data_storage.db_handler import insert_bluetooth_data, insert_wifi_data, get_db
+from data_storage.db_handler import insert_weather_data, get_db
 from contextlib import contextmanager
 
 
@@ -277,3 +278,18 @@ def process_and_store_wifi_data(wifi_data):
     with get_db_session() as db:
         stored_record = insert_wifi_data(db, wifi_data)
         logging.info(f"Stored Wi-Fi data: {stored_record}")
+
+#Weather data:
+
+def process_and_store_weather_data(weather_data):
+    """
+    Process and store weather data.
+    """
+    with get_db_session() as db:
+        stored_record = insert_weather_data(db, weather_data)
+        logging.info(f"Stored weather data: {stored_record}")
+
+    # Optionally, add conditions to control traffic light or routing based on weather
+    if weather_data.get("rainfall") > 10:  # Example condition for heavy rain
+        logging.info("Heavy rain detected, adjusting traffic signals for safety.")
+        # Additional traffic adjustment actions here, if needed
