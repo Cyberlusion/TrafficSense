@@ -60,8 +60,6 @@ from data_processing import start_stream_processing
 
 CAMERA_URL = "rtsp://camera_address/stream"  # Replace with actual camera URL
 
-CAMERA_URL = "rtsp://camera_address/stream"  # Replace with actual camera URL
-
 if __name__ == "__main__":
     # Start threads for each data source
     mqtt_thread = Thread(target=start_mqtt_listener)
