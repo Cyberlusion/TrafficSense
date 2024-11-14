@@ -349,3 +349,14 @@ def process_and_store_pedestrian_data(pedestrian_data):
     with get_db_session() as db:
         stored_record = insert_pedestrian_data(db, pedestrian_data)
         logging.info(f"Stored pedestrian data: {stored_record}")
+
+#pedestrians:
+
+def process_and_store_pedestrian_data(pedestrian_data):
+    pedestrian_count = pedestrian_data.get("count")
+    location_id = pedestrian_data.get("location_id")
+
+    # If pedestrian count is high, prioritize pedestrian crossing
+    if pedestrian_count > 20:
+        control_traffic_light_for_pedestrians(location_id, action="pedestrian_priority")
+        logging.info(f"Activated pedestrian priority mode for traffic light {location_id}")
