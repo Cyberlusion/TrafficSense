@@ -8,6 +8,7 @@ from .config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 from .schema import TrafficData
 from .models import RadarLidarData
 from .models import AcousticData
+from .models import AirQualityData
 
 # Set up the database connection string
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -132,6 +133,34 @@ def insert_acoustic_data(db: Session, sound_level: float, vehicle_count: int, ti
         sound_level=sound_level,
         vehicle_count=vehicle_count,
         timestamp=datetime.fromisoformat(timestamp)
+    )
+    db.add(new_record)
+    db.commit()
+    db.refresh(new_record)
+    return new_record
+
+#Air quality sensors:
+
+ef insert_air_quality_data(db: Session, pm25: float, pm10: float, co2: float, no2: float, timestamp: str, location: str):
+    """
+    Inserts air quality sensor data into the database.
+    
+    Parameters:
+    - db: Database session.
+    - pm25: PM2.5 concentration in µg/m³.
+    - pm10: PM10 concentration in µg/m³.
+    - co2: CO2 concentration in ppm.
+    - no2: NO2 concentration in ppm.
+    - timestamp: Timestamp of data.
+    - location: Location of the sensor.
+    """
+    new_record = AirQualityData(
+        pm25=pm25,
+        pm10=pm10,
+        co2=co2,
+        no2=no2,
+        timestamp=datetime.fromisoformat(timestamp),
+        location=location
     )
     db.add(new_record)
     db.commit()
