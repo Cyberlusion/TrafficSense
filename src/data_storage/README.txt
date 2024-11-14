@@ -1,0 +1,1 @@
+For the data_storage layer, the goal is to set up a way to store both raw and processed data for further analysis or retrieval. In this layer, we’ll handle database interactions such as connecting, writing, and reading data, ideally abstracting these details to keep the main application code clean.
