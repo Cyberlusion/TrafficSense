@@ -13,7 +13,9 @@ from feedback.feedback_manager import (
     update_routing_suggestion,
 )
 from data_storage.db_handler import insert_traffic_data, get_db
+from data_storage.db_handler import insert_loop_sensor_data, get_db
 from contextlib import contextmanager
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -109,4 +111,34 @@ def analyze_and_store_traffic_camera_data(frame):
     # Process and store the data
     process_and_store_traffic_camera_data(vehicle_count, congestion_level)
     logging.info(f"Processed frame with {vehicle_count} vehicles, congestion level: {congestion_level}")
+
+#Add road seonsor data
+
+@contextmanager
+def get_db_session():
+    db = next(get_db())
+    try:
+        yield db
+    finally:
+        db.close()
+
+def process_and_store_loop_sensor_data(loop_id, vehicle_count, timestamp):
+    """
+    Process and store inductive loop sensor data in the database.
+    
+    Parameters:
+    - loop_id: Identifier for the inductive loop sensor.
+    - vehicle_count: Number of vehicles detected by the sensor.
+    - timestamp: Time the data was recorded.
+    """
+    occupancy = calculate_occupancy(vehicle_count)  # Example function for occupancy
+
+    with get_db_session() as db:
+        stored_record = insert_loop_sensor_data(db, loop_id, vehicle_count, occupancy, timestamp)
+        logging.info(f"Stored loop sensor data: {stored_record}")
+
+def calculate_occupancy(vehicle_count):
+    # Example: Calculate occupancy as a simple function of vehicle count
+    return min(100, vehicle_count * 5)  # Assuming each vehicle counts as 5% occupancy
+
 
