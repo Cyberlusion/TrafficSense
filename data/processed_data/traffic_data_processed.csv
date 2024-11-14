@@ -1,0 +1,6 @@
+timestamp,location,average_speed,vehicle_count
+2024-11-14T08:00:00Z,Point A,64.5,100
+2024-11-14T08:05:00Z,Point B,58.2,95
+2024-11-14T08:10:00Z,Point C,71.0,120
+2024-11-14T08:15:00Z,Point D,60.0,110
+2024-11-14T08:20:00Z,Point E,55.0,90
