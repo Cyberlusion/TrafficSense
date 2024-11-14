@@ -63,16 +63,20 @@ CAMERA_URL = "rtsp://camera_address/stream"  # Replace with actual camera URL
 
 if __name__ == "__main__":
     # Start threads for each data source
+    bluetooth_thread = Thread(target=start_bluetooth_listener)
+    wifi_thread = Thread(target=start_wifi_listener)
     gps_thread = Thread(target=start_gps_listener)
     mqtt_thread = Thread(target=start_mqtt_listener)
     http_thread = Thread(target=fetch_http_data)
-    camera_thread = Thread(target=start_camera_stream, args=(CAMERA_URL,))
+    camera_thread = Thread(target=start_camera_stream, args=("camera_url",))
     loop_sensor_thread = Thread(target=start_loop_sensor_listener)
     radar_lidar_thread = Thread(target=start_radar_lidar_listener)
     air_quality_thread = Thread(target=start_air_quality_listener)
     processing_thread = Thread(target=start_stream_processing)
 
     # Start all threads
+    bluetooth_thread.start()
+    wifi_thread.start()
     gps_thread.start()
     mqtt_thread.start()
     http_thread.start()
@@ -83,6 +87,8 @@ if __name__ == "__main__":
     processing_thread.start()
 
     # Wait for all threads to complete
+    bluetooth_thread.join()
+    wifi_thread.join()
     gps_thread.join()
     mqtt_thread.join()
     http_thread.join()
