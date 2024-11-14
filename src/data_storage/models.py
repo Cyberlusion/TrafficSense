@@ -68,3 +68,13 @@ class WifiData(Base):
     timestamp = Column(DateTime)  # Timestamp when the data was recorded
     location_latitude = Column(Float)  # Latitude of the detected device
     location_longitude = Column(Float)  # Longitude of the detected device
+
+class WeatherData(Base):
+    __tablename__ = "weather_data"
+    id = Column(Integer, primary_key=True, index=True)
+    temperature = Column(Float, nullable=True)
+    humidity = Column(Float, nullable=True)
+    pressure = Column(Float, nullable=True)
+    rainfall = Column(Float, nullable=True)
+    wind_speed = Column(Float, nullable=True)
+    timestamp = Column(DateTime, nullable=False)
