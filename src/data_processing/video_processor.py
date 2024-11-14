@@ -14,3 +14,13 @@ def detect_vehicles(frame):
     # Simulated detection logic
     # Use a real object detection model like YOLO in production
     return 5  # Placeholder for the number of detected vehicles
+
+def calculate_congestion_level(vehicle_count):
+    # Example congestion calculation based on vehicle count
+    # Simple rule: congestion level out of 100
+    if vehicle_count < 10:
+        return 20  # Low congestion
+    elif vehicle_count < 20:
+        return 50  # Moderate congestion
+    else:
+        return 90  # High congestion
