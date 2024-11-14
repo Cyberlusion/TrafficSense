@@ -1,0 +1,8 @@
+{
+  "timestamp_range": "2024-11-14T08:00:00Z - 2024-11-14T08:30:00Z",
+  "device_count": 6,
+  "average_speed": 66.0,
+  "average_temperature": 23.2,
+  "max_battery_level": 93,
+  "min_battery_level": 85
+}
