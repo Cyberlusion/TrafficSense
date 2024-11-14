@@ -10,6 +10,7 @@ from .models import RadarLidarData
 from .models import AcousticData
 from .models import AirQualityData
 from .models import GPSData
+from .models import BluetoothData, WifiData
 
 # Set up the database connection string
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -188,6 +189,34 @@ def insert_gps_data(db: Session, vehicle_id: str, latitude: float, longitude: fl
         longitude=longitude,
         speed=speed,
         timestamp=datetime.fromisoformat(timestamp)
+    )
+    db.add(new_record)
+    db.commit()
+    db.refresh(new_record)
+    return new_record
+
+#Wi-fi and Bluetooth:
+
+def insert_bluetooth_data(db: Session, bluetooth_data: dict):
+    new_record = BluetoothData(
+        device_id=bluetooth_data["device_id"],
+        rssi=bluetooth_data["rssi"],
+        timestamp=bluetooth_data["timestamp"],
+        location_latitude=bluetooth_data["location"]["latitude"],
+        location_longitude=bluetooth_data["location"]["longitude"],
+    )
+    db.add(new_record)
+    db.commit()
+    db.refresh(new_record)
+    return new_record
+
+def insert_wifi_data(db: Session, wifi_data: dict):
+    new_record = WifiData(
+        mac_address=wifi_data["mac_address"],
+        rssi=wifi_data["rssi"],
+        timestamp=wifi_data["timestamp"],
+        location_latitude=wifi_data["location"]["latitude"],
+        location_longitude=wifi_data["location"]["longitude"],
     )
     db.add(new_record)
     db.commit()
