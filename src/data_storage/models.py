@@ -50,3 +50,21 @@ class GPSData(Base):
     longitude = Column(Float)  # Longitude of the vehicle
     speed = Column(Float)  # Speed of the vehicle (km/h)
     timestamp = Column(DateTime)  # Timestamp of data recording
+
+class BluetoothData(Base):
+    __tablename__ = "bluetooth_data"
+    id = Column(Integer, primary_key=True, index=True)
+    device_id = Column(String, index=True)  # Unique identifier for the Bluetooth device
+    rssi = Column(Float)  # Signal strength of the Bluetooth device
+    timestamp = Column(DateTime)  # Timestamp when the data was recorded
+    location_latitude = Column(Float)  # Latitude of the detected device
+    location_longitude = Column(Float)  # Longitude of the detected device
+
+class WifiData(Base):
+    __tablename__ = "wifi_data"
+    id = Column(Integer, primary_key=True, index=True)
+    mac_address = Column(String, index=True)  # MAC address of the Wi-Fi device
+    rssi = Column(Float)  # Signal strength of the Wi-Fi device
+    timestamp = Column(DateTime)  # Timestamp when the data was recorded
+    location_latitude = Column(Float)  # Latitude of the detected device
+    location_longitude = Column(Float)  # Longitude of the detected device
