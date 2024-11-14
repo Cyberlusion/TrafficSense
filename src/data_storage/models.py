@@ -40,3 +40,13 @@ class AirQualityData(Base):
     no2 = Column(Float)  # NO2 concentration (ppm)
     timestamp = Column(DateTime)  # Timestamp of data recording
     location = Column(String)  # Location of the sensor
+
+class GPSData(Base):
+    __tablename__ = "gps_data"
+
+    id = Column(Integer, primary_key=True, index=True)
+    vehicle_id = Column(String, index=True)  # Vehicle identifier
+    latitude = Column(Float)  # Latitude of the vehicle
+    longitude = Column(Float)  # Longitude of the vehicle
+    speed = Column(Float)  # Speed of the vehicle (km/h)
+    timestamp = Column(DateTime)  # Timestamp of data recording
