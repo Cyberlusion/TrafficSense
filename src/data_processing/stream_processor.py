@@ -17,6 +17,7 @@ from data_storage.db_handler import insert_loop_sensor_data, get_db
 from data_storage.db_handler import insert_radar_lidar_data, get_db
 from data_storage.db_handler import insert_acoustic_data, get_db
 from data_storage.db_handler import insert_air_quality_data, get_db
+from data_storage.db_handler import insert_gps_data, get_db
 from contextlib import contextmanager
 
 
@@ -232,3 +233,28 @@ def calculate_air_quality_index(pm25, pm10, co2, no2):
         return "Moderate"  # Moderate pollution levels
     else:
         return "Good"  # Good air quality
+
+#GPS:
+
+def process_and_store_gps_data(vehicle_id, latitude, longitude, speed, timestamp):
+    """
+    Process and store GPS data from vehicles in the database.
+    
+    Parameters:
+    - vehicle_id: Unique identifier for the vehicle.
+    - latitude: Latitude of the vehicle's location.
+    - longitude: Longitude of the vehicle's location.
+    - speed: Speed of the vehicle.
+    - timestamp: Timestamp when the data was recorded.
+    """
+    with get_db_session() as db:
+        stored_record = insert_gps_data(db, vehicle_id, latitude, longitude, speed, timestamp)
+        logging.info(f"Stored GPS data for Vehicle ID {vehicle_id}: {stored_record}")
+
+def analyze_gps_data(data):
+    """
+    Perform analysis on GPS data (e.g., identifying traffic patterns, speeds, congestion).
+    """
+    # Example analysis: Identify traffic jam
+    if data["speed"] < 5:  # Speed below 5 km/h indicates congestion
+        logging.warning(f"Traffic jam detected near {data['location']}")
