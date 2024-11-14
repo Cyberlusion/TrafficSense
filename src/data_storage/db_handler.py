@@ -59,3 +59,31 @@ def insert_traffic_camera_data(db: Session, vehicle_count: int, congestion_level
     db.commit()
     db.refresh(new_record)
     return new_record
+
+#Add road sensors:
+
+from sqlalchemy.orm import Session
+from datetime import datetime
+from .models import LoopSensorData
+
+def insert_loop_sensor_data(db: Session, loop_id: str, vehicle_count: int, occupancy: int, timestamp: str):
+    """
+    Inserts inductive loop sensor data into the database.
+    
+    Parameters:
+    - db: Database session.
+    - loop_id: ID of the loop sensor.
+    - vehicle_count: Number of vehicles detected.
+    - occupancy: Calculated occupancy percentage.
+    - timestamp: Timestamp of the sensor reading.
+    """
+    new_record = LoopSensorData(
+        loop_id=loop_id,
+        vehicle_count=vehicle_count,
+        occupancy=occupancy,
+        timestamp=datetime.fromisoformat(timestamp)
+    )
+    db.add(new_record)
+    db.commit()
+    db.refresh(new_record)
+    return new_record
