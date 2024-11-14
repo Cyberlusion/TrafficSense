@@ -1,0 +1,13 @@
+///This is a CSV file containing sample traffic data. It includes columns for the timestamp, vehicle ID, location, and speed.
+
+  timestamp,vehicle_id,location,speed
+2024-11-14T08:00:00Z,12345,"Point A",65
+2024-11-14T08:05:00Z,12346,"Point B",58
+2024-11-14T08:10:00Z,12347,"Point C",72
+2024-11-14T08:15:00Z,12348,"Point D",60
+2024-11-14T08:20:00Z,12349,"Point E",55
+2024-11-14T08:25:00Z,12350,"Point F",68
+2024-11-14T08:30:00Z,12351,"Point G",74
+2024-11-14T08:35:00Z,12352,"Point H",62
+2024-11-14T08:40:00Z,12353,"Point I",70
+2024-11-14T08:45:00Z,12354,"Point J",64
