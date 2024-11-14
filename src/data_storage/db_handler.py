@@ -11,6 +11,7 @@ from .models import AcousticData
 from .models import AirQualityData
 from .models import GPSData
 from .models import BluetoothData, WifiData
+from .models import WeatherData
 
 # Set up the database connection string
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -217,6 +218,22 @@ def insert_wifi_data(db: Session, wifi_data: dict):
         timestamp=wifi_data["timestamp"],
         location_latitude=wifi_data["location"]["latitude"],
         location_longitude=wifi_data["location"]["longitude"],
+    )
+    db.add(new_record)
+    db.commit()
+    db.refresh(new_record)
+    return new_record
+
+#weather:
+
+def insert_weather_data(db: Session, weather_data: dict):
+    new_record = WeatherData(
+        temperature=weather_data.get("temperature"),
+        humidity=weather_data.get("humidity"),
+        pressure=weather_data.get("pressure"),
+        rainfall=weather_data.get("rainfall"),
+        wind_speed=weather_data.get("wind_speed"),
+        timestamp=weather_data.get("timestamp"),
     )
     db.add(new_record)
     db.commit()
